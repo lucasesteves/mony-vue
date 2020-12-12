@@ -1,28 +1,43 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <ThemeProvider :theme="{colors}">
+      <router-view/>
+    </ThemeProvider>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import {ThemeProvider} from 'vue-styled-components'
 
 export default {
   name: 'App',
+  data(){
+    return{
+      colors:{
+        primary: '#5159AC',
+        secondary: '#2CA0C1',
+        danger: '#EF5837',
+        success: '#02CC9C',
+        white:'#FFF',
+        background: '#FFF',
+        grey:'#DEDEDE',
+        text: '#212121',
+      }
+    }
+  },
   components: {
-    HelloWorld
+    ThemeProvider,
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    *{
+      padding:0;
+      margin:0;
+      
+    }
+
 </style>
+
