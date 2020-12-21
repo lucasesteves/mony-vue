@@ -9,7 +9,7 @@
 
 <script>
     import { Select, Option } from './styles';
-    import { getMonths, currentMonth } from '../../services/months';
+    import { getMonths as listOfMonths } from '../../services/months';
     import Title from '../../components/Title';
 
     export default {
@@ -25,22 +25,25 @@
         },
         data(){
             return{
-                months:getMonths()
+                months:listOfMonths()
             }
         },
         computed:{
             getMonth(){
                 return this.$store.getters.getMonth 
-            }
-        },
-        created(){
-            if(this.$store.getters.getMonth===''){
-                this.current=currentMonth()
-            }
+            },
+            getUser(){
+                return this.$store.getters.getUser.id
+            },
         },
         methods:{
             change(event){
+                const data = { 
+                    userId: this.getUser,
+                    month: event.target.value
+                }
                 this.$store.commit("setMonth",event.target.value)
+                this.$store.dispatch('main',data)
             }
         }
     }

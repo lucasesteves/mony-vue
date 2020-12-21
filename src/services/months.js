@@ -29,3 +29,7 @@ export const currentMonth = () =>{
     const nameMonth = findMonth(month)
     return nameMonth;
 }
+
+export const currentYear = () => {
+    return moment().format('YYYY')
+}

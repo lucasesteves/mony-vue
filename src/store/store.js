@@ -12,5 +12,7 @@ export default new Vuex.Store({
         user,
         dashboard
     },
-    plugins: [createPersistedState()],
+    plugins: [createPersistedState({
+        paths:['user']
+    })],
 })

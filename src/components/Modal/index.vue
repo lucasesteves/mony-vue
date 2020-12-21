@@ -15,8 +15,6 @@
             <Label>Valor</Label>
             <Input type="text" :height="42" placeholder="Ex: 200" :value="money" @onChange="money = $event" />
             <Space />
-            <Seletor :font="16" :bottom="16" title="Mês" />
-            <Space />
             <Button color="default" :height="42" :block="true" @click.native="confirm()">Confirmar</Button>
         </Content>
     </Wrapper>
@@ -27,7 +25,6 @@
     import Title from '../Title';
     import Input from '../Input';
     import Button from '../Button';
-    import Seletor from '../Selector';
 
     export default {
         props:{
@@ -47,7 +44,6 @@
             Title,
             Input,
             Button,
-            Seletor
         },
         data(){
             return{
@@ -55,10 +51,22 @@
                 money:''
             }
         },
+        computed:{
+            getMonth(){
+                return this.$store.getters.getMonth 
+            },
+        },
         methods:{
             confirm(){
-                console.log(this.name)
-                console.log(this.money)
+                const data = { 
+                    type:this.variant, 
+                    data:{
+                        name:this.name, 
+                        money:this.money,
+                        month:this.getMonth 
+                    } 
+                }
+                this.$store.dispatch('newOperation',data)
                 this.close()
             }
         } 

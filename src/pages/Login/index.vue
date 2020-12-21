@@ -3,21 +3,21 @@
         <Wrapper>
             <Card>
                 <Title>Mony</Title>
-                
+
                 <Space :size="24" />
                 <div v-if="register">
                     <Label>Nome:</Label>
-                    <Input type="text" :value="credential.nome" @onChange="credential.nome = $event" />
+                    <Input type="text" :value="name" @onChange="name = $event" />
                     <Space :size="!register ? 24 : 18" />
                 </div>
 
                 <Label>E-mail:</Label>
-                <Input type="text" :value="credential.email" @onChange="credential.email = $event" />
+                <Input type="text" :value="email" @onChange="email = $event" />
 
                 <Space :size="!register ? 24 : 18" />
 
                 <Label>Senha:</Label>
-                <Input type="password" :value="credential.password" @onChange="credential.password = $event" />
+                <Input type="password" :value="password" @onChange="password = $event" />
 
                 <Space :size="register ? 24 : 64" />
 
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-    import router from '../../routes'
     import { Wrapper, Card, Title, Label, Space } from './styles'
     import Button from '../../components/Button'
     import Input from '../../components/Input'
@@ -55,24 +54,27 @@
                 variant:true,
                 loading:false,
                 register:false,
-                credential:{
-                    name:'',
-                    email:'',
-                    password:''
-                }
+                name:'',
+                email:'',
+                password:''
             }
         },
-        methods:{
-            async page(){
-                await localStorage.setItem('token','adaskjqkwjeqk')
-                router.push('/dashboard')
-            },
-            
+        computed:{
+            user(){
+                return this.$store.getters.getUser
+            }
+        },
+        methods:{            
             login(){
                 this.loading=true
                 this.variant=!this.variant
-                router.push('/dashboard')
-                this.$store.commit('saveUser',this.credential)
+                let data
+                if(!this.register){
+                    data = { data: { email:this.email, password:this.password }, type:'login' }
+                }else{
+                    data = { data: { name:this.name, email:this.email, password:this.password }, type:'register' }
+                }
+                this.$store.dispatch('authenticate',data)
             },
 
             create(){

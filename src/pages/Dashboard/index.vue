@@ -43,12 +43,7 @@
         },
         data(){
             return{
-                page:'',
-                head:{
-                    title:'Mony',
-                    subtitle:'Teste com Vuejs'
-                },
-                title:'Mony'
+                
             }
         },
         methods:{

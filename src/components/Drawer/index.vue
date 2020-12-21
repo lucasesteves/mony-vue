@@ -1,6 +1,6 @@
 <template>
     <Wrapper>
-        <Name>Olá, Nome</Name>
+        <Name>Olá, {{ getUser }}</Name>
         <div v-for="(e,index) in elements" :key="index">
             <Row :persist="e.page==currentPage ? true : false" @click="change(e.page)">
                 <fa-icon :icon="['fas',e.icon]" />
@@ -25,18 +25,17 @@
         computed:{
             currentPage(){
                 return this.$store.getters.getPage 
+            },
+            getUser(){
+                return this.$store.getters.getUser.name
             }
         },
         data(){
             return{
-                // page:this.$store.getters.getPage,
                 elements:[
-                    {name:'Dashboard', icon:'table', page:''},
+                    {name:'Dashboard', icon:'table', page:'dashboard'},
                     {name:'Meus Lucros', icon:'money-bill', page:'wins'},
                     {name:'Meus Gastos', icon:'wallet', page:'wastes'},
-                    // {name:'Dashboard', page:'dashboard'},
-                    // {name:'Meus Lucros', page:'wins'},
-                    // {name:'Meus Gastos', page:'wastes'}
                 ]
             }
         },

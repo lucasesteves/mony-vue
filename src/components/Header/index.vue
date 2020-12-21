@@ -41,7 +41,7 @@
                 this.open=!this.open
             },
             logout(){
-                this.$store.commit('logout')
+                this.$store.commit('logoutAccount')
             }
         }
     }

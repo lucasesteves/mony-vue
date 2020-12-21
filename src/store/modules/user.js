@@ -1,22 +1,11 @@
-/* eslint-disable */
-// import Vue from 'vue';
 import router from '../../routes';
-
-
+import api from '../../services/api';
+import { currentMonth } from '../../services/months';
 
 const user={
     state: {
-        credential:{
-            name:'',
-            email:'',
-            password:''
-        },
         page:'dashboard',
-        user:{
-            id:'',
-            name:'',
-            email:''
-        },
+        user:{},
         token:'',
         month:'',
         signed:false,
@@ -24,33 +13,50 @@ const user={
     },
     getters:{
         getUser(state){
-            return state.credential
+            return state.user
         },
         getPage(state){
             return state.page
         },
         getMonth(state){
             return state.month
+        },
+        getToken(state){
+            return state.token
         }
     },
     mutations:{
         saveUser(state,data){
-            state.credential=data
-            router.push('/dashboard')
+            state.credential = data
+            router.push('/')
         },
         changePage(state,data){
-            state.page=data
+            state.page = data
         },
         logout(state){
-            state.credential.email=''
+            state.credential.email = ''
         },
         setMonth(state,data){
-            state.month=data
-        }
-        
+            state.month = data
+        },
+        login(state,data){
+            state.user = data.data.user
+            state.token = data.data.token
+            state.month = currentMonth()
+            router.push('/')
+        },
+        logoutAccount(state){
+            localStorage.removeItem('vuex')
+            state.token = ''
+            state.user = {}
+            router.push('/login')
+        }        
     },
     actions:{
-        
+        async authenticate({ commit }, payload){
+            const response = await api.post(payload.type,payload.data)
+            commit('login',response)
+        }
     }
 }
 

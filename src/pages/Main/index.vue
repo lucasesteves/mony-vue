@@ -1,17 +1,16 @@
 <template>
         <Wrapper>
             <Card id="c1" color="default">
-                <Detail title="Entrada" :value="dash.totalWin" />
+                <Detail title="Entrada" :value="getDash.totalWin" />
             </Card>
             <Card id="c2" color="default">
-                <Detail title="Saída" :value="dash.totalLoss" />
+                <Detail title="Saída" :value="getDash.totalLoss" />
             </Card>
-            <Card id="c3" :color="diff>0 ? 'good' : 'bad'">
-                <Detail title="Saldo" :value="dash.diff" />
+            <Card id="c3" :color="getDash.diff>0 ? 'good' : 'bad'">
+                <Detail title="Saldo" :value="getDash.diff" />
             </Card>
             <Card id="se">
                 <Seletor />
-                <!-- seletor -->
             </Card>
             <Card id="ch">
                 gráfico
@@ -25,7 +24,7 @@
     import Card from '../../components/Card';
     import Detail from '../../components/Detail';
     import Seletor from '../../components/Selector';
-
+    
     export default {
         components:{
             Wrapper,
@@ -33,14 +32,23 @@
             Detail,
             Seletor
         },
-        data(){
-            return{
-                dash:{
-                    diff:50,
-                    totalWin:200,
-                    totalLoss:150
-                }
+        computed:{
+            getUser(){
+                return this.$store.getters.getUser.id
+            },
+            getMonth(){
+                return this.$store.getters.getMonth
+            },
+            getDash(){
+                return this.$store.getters.getDash
             }
+        },
+        created(){
+            const data = {
+                userId: this.getUser,
+                month: this.getMonth
+            }
+            this.$store.dispatch('main',data)
         }
     }
 </script>

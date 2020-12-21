@@ -5,12 +5,12 @@
             <Button color="default" :height="52" :width="200" @click.native="handlerModal()">Entrada</Button>
         </Card>
         <Card id="c2" color="bad">
-            <Detail title="Saldo" :value="total" />
+            <Detail title="Saldo" :value="getTotalLoss" />
         </Card>
         <Card id="li">
-            <Table :list="getLoss" :remove="(_id)=>this.removeGain(_id)" />
+            <Table :list="getLoss" :remove="(_id)=>this.removeLoss(_id)" />
         </Card>
-        <Modal :open="open" title="Adicionar gasto" variant="gain" :close="this.handlerModal" />
+        <Modal :open="open" title="Adicionar gasto" variant="loss" :close="this.handlerModal" />
     </Main>
 </template>
 
@@ -35,7 +35,6 @@
         },
         data(){
             return{
-                total:0,
                 open:false
             }
         },
@@ -45,15 +44,33 @@
             },
             getLoss(){
                 return this.$store.getters.getLoss
+            },
+            getUser(){
+                return this.$store.getters.getUser.id
+            },
+            getTotalLoss(){
+                return this.$store.getters.getSumOfLoss
             }
         },
         methods:{
             handlerModal(){
                 this.open=!this.open
             },
-            removeGain(value){
-                console.log(`Removeu ${value}`)
+            removeLoss(value){
+                const data = { type:'loss', id:value }
+                this.$store.dispatch('remove',data)
             }
+        },
+        created(){
+            const data = {
+                type:"loss",
+                data:{
+                    userId:this.getUser,
+                    month:this.getMonth
+                }
+            }
+            this.$store.dispatch('operations',data)
+            this.$store.dispatch('totalValue',data)
         }
     }
 </script>

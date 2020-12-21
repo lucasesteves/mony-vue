@@ -11,18 +11,22 @@ Vue.use(VueRouter)
          
 const auth = {
     beforeEnter: (to, from, next) => {
-        const token = store.getters.getUser.email
+        const token = store.getters.getToken
         if(token){
-            next()
+            if(to.path === '/login'){
+                next('/')
+            }else{
+                next()
+            }
         }else{
-            next('/')
+            next('/login')
         }
     }
 }
 
 const routes=[
-    {path:'/',component:Login},
-    {path:'/dashboard',component:Dashboard,...auth},
+    {path:'/login',component:Login},
+    {path:'/',component:Dashboard,...auth},
     {path:'*',component:Login}
 ]
 
