@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import router from '../../routes';
 import api from '../../services/api';
 import { currentMonth } from '../../services/months';
@@ -9,7 +10,7 @@ const user={
         token:'',
         month:'',
         signed:false,
-        loading:false,
+        authLoading:false,
     },
     getters:{
         getUser(state){
@@ -23,6 +24,9 @@ const user={
         },
         getToken(state){
             return state.token
+        },
+        authenticateLoading(state){
+            return state.authLoading
         }
     },
     mutations:{
@@ -42,6 +46,7 @@ const user={
         login(state,data){
             state.user = data.data.user
             state.token = data.data.token
+            state.authLoading = false 
             state.month = currentMonth()
             router.push('/')
         },
@@ -49,13 +54,25 @@ const user={
             localStorage.removeItem('vuex')
             state.token = ''
             state.user = {}
+            state.authLoading = false 
             router.push('/login')
+        },
+        setLoading(state,data){
+            state.authLoading = data 
         }        
     },
     actions:{
         async authenticate({ commit }, payload){
-            const response = await api.post(payload.type,payload.data)
-            commit('login',response)
+            try{
+                commit('setLoading', true)
+                const response = await api.post(payload.type,payload.data)
+                    if(response.status === 200){
+                        commit('login',response)
+                    }
+            }catch(error){
+                commit('setLoading', false)
+                Vue.$vToastify.info("Error",error.response.data.message);
+            }
         }
     }
 }

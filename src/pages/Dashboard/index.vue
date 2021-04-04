@@ -40,15 +40,6 @@
             currentPage(){
                 return this.$store.getters.getPage
             }
-        },
-        data(){
-            return{
-                
-            }
-        },
-        methods:{
-        
-        },
-        
+        },        
     }
 </script>

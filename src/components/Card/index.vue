@@ -14,11 +14,6 @@
         props:{
             id:String,
             color:String,
-        },  
-        data(){
-            return{
-
-            }
-        }        
+        },        
     }
 </script>

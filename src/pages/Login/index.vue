@@ -21,12 +21,14 @@
 
                 <Space :size="register ? 24 : 64" />
 
-
-                <Button color="default" :block="true" :height="42" @click.native="login()">{{!register ? 'Entrar' : 'Cadastrar'}}</Button>
-                
-                <Space :size="24" />
-
-                <Button color="secondary" :block="true" :height="42" @click.native="create()">{{register ? 'Voltar' : 'Cadastrar'}}</Button>
+                <div v-if="!loading">
+                    <Button color="default" :block="true" :height="42" @click.native="login()">{{!register ? 'Entrar' : 'Cadastrar'}}</Button>
+                    <Space :size="24" />
+                    <Button color="secondary" :block="true" :height="42" @click.native="create()">{{register ? 'Voltar' : 'Cadastrar'}}</Button>
+                </div>
+                <div v-else>
+                    <Spinner :loading="loading" color="default" />
+                </div>
                 
             </Card>
         </Wrapper>
@@ -37,6 +39,7 @@
     import { Wrapper, Card, Title, Label, Space } from './styles'
     import Button from '../../components/Button'
     import Input from '../../components/Input'
+    import Spinner from '../../components/Spinner'
 
     export default {
         components: {
@@ -47,12 +50,10 @@
             Label,
             Input,
             Space,
-            // Load
+            Spinner
         },
         data(){
             return{
-                variant:true,
-                loading:false,
                 register:false,
                 name:'',
                 email:'',
@@ -62,12 +63,13 @@
         computed:{
             user(){
                 return this.$store.getters.getUser
+            },
+            loading(){
+                return this.$store.getters.authenticateLoading
             }
         },
         methods:{            
             login(){
-                this.loading=true
-                this.variant=!this.variant
                 let data
                 if(!this.register){
                     data = { data: { email:this.email, password:this.password }, type:'login' }

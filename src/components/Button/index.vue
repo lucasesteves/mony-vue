@@ -16,13 +16,6 @@
             color:String,
             block:Boolean,
             height:Number,
-        },
-
-        data(){
-            return{
-
-            }
-        }
-      
+        },      
     }
 </script>

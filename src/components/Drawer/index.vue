@@ -27,7 +27,7 @@
                 return this.$store.getters.getPage 
             },
             getUser(){
-                return this.$store.getters.getUser.name
+                return this.$store.getters.getUser.email
             }
         },
         data(){

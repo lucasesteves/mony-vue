@@ -14,8 +14,8 @@ export const Wrapper = styled.div`
 `;
 
 export const Card = styled.div`
-    width:400px;
-    height:500px;
+    width:337px;
+    height:437px;
     padding:32px;
     background:#fff;
     border-radius:10px;
